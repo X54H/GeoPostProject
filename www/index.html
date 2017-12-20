@@ -1,3 +1,4 @@
+<!--TODO Come Caricare Bootstrap?-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,13 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE8OW9R6UyM30AoZbPAn5hRwWQA_pIdsY" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE8OW9R6UyM30AoZbPAn5hRwWQA_pIdsY"></script>
+
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/person.js"> </script>
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -20,53 +27,51 @@
 
 <!--TODO RENDERE TUTTO COERENTE BOOTSTRAP, ETC-->
 <body onload="onLoad()">
-
-<div id="app">
-    <nav class="navbar navbar-inverse navbar-fixed-top" style="display: none">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a id="setting" class="navbar-brand" href="#">
-                    <span  class="glyphicon glyphicon-menu-hamburger" onclick="openNav();"></span>
-                </a>
-                <a id="back" onclick="showFollowedFriends();" class="navbar-brand" href="#" style="display: none;">
-                    <span onclick="loadFriends()" class="glyphicon glyphicon-menu-left"></span>
-                </a>
-                <a class="navbar-brand" href="#">GeoPost</a>
+    <div id="app" class="container-fluid">
+        <nav class="navbar navbar-inverse navbar-fixed-top" style="display: none">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a id="setting" class="navbar-brand" href="#">
+                        <span  class="glyphicon glyphicon-menu-hamburger" onclick="openNav();"></span>
+                    </a>
+                    <a id="back" onclick="showFollowedFriends();" class="navbar-brand" href="#" style="display: none;">
+                        <span onclick="loadFriends()" class="glyphicon glyphicon-menu-left"></span>
+                    </a>
+                    <a class="navbar-brand" href="#">GeoPost</a>
+                </div>
             </div>
+        </nav>
+
+
+
+        <div id="mySidenav" class="sidenav" style="padding-top: 50px">
+            <a href="javascript:void(0)"  class="closebtn" onclick="closeNav()" style="padding-top: 50px" >&times;</a>
+            <a href="#" onclick="clickAction(showProfilePage);" id="profile">Profile</a>
+            <a href="#" onclick="clickAction(showUpdateStatusPage);">Update Status</a>
+            <a href="#" onclick="clickAction(showAddFriendPage)">Add Friend</a>
+            <a href="#" onclick="clickAction(showFollowedFriends)">Followed Friends</a>
+            <a href="#" onclick="clickAction(logout)">Logout</a>
         </div>
-    </nav>
 
-    <div id="mySidenav" class="sidenav" style="padding-top: 50px">
-        <a href="javascript:void(0)"  class="closebtn" onclick="closeNav()" style="padding-top: 50px" >&times;</a>
-        <a href="#" onclick="clickAction(showProfilePage);" id="profile">Profile</a>
-        <a href="#" onclick="clickAction(showUpdateStatusPage);">Update Status</a>
-        <a href="#" onclick="clickAction(showAddFriendPage)">Add Friend</a>
-        <a href="#" onclick="clickAction(showFollowedFriends)">Followed Friends</a>
-        <a href="#" onclick="clickAction(logout())">Logout</a>
-    </div>
-
-    <div id="dynamicBody" class="container-fluid">
-        <div id="form-login" style="display: none">
-            <h2 class="form-signin-heading">GeoPost</h2>
-            <label for="inputUsername" class="sr-only">Username</label>
-            <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
+        <div id="dynamicBody" class="container-fluid">
+            <div id="form-login" style="display: none">
+                <h2 class="form-signin-heading">GeoPost</h2>
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="remember-me"> Remember me
+                    </label>
+                </div>
+                <button id="sub" class="btn btn-primary btn-lg btn-block">Sign in</button>
             </div>
-            <button id="sub" class="btn btn-primary btn-lg btn-block">Sign in</button>
-        </div>
-        </div> <!-- /container-fluid -->
+            </div> <!-- /container-fluid -->
 
-        <img src="img/loading.gif" id="loading"/>
+            <img src="img/loading.gif" id="loading"/>
+        </div>
     </div>
-<!--JS-->
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="js/person.js"> </script>
-    <script type="text/javascript" src="js/map.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
+    <!--JS-->
 </body>
 </html>

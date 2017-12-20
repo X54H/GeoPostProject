@@ -20,6 +20,8 @@
 // TODO Sistemare logout
 // TODO Handling Errors
 //TODO PROFILE QUALCHE NON MOSTRA LA POSIZIONE SULLA MAPPA
+//TODO sistemare view
+
 function onLoad() {
     document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
 }
@@ -63,12 +65,14 @@ function receivedEvent(id) {
     console.log(id);
     //TODO Bug doppio click da risolvere.
     $("#sub").click(function () {
+        $("#loading").show();
         login()
     })
 }
 
 
 function clickAction(action) {
+    closeNav();
     action();
 }
 
@@ -103,37 +107,38 @@ function login () {
     });
 }
 
-function loadFriends() {
-    $("#loading").show();
-    $.ajax({
-        url: "https://ewserver.di.unimi.it/mobicomp/geopost/followed?session_id=" + SingletonUser.getInstance()
-            .session_id,
-        success: function (result) {
-            $("#loading").hide();
-            var people = result.followed;
-                people.forEach(function (person) {
-                    SingletonFriendsList.getInstance().addFriend(person);
-
-                })
-                // showFollowedFriends();
-                array_adapter = new FriendsListAdapter(document.getElementById('dynamicBody'), SingletonFriendsList
-                    .getInstance().getFriendsList());
-                array_adapter.refresh();
-                $("nav").show(); 
-        }
-    })
-}
-
 
 function showFollowedFriends() {
     showSettingHideback();
-    console.log(SingletonFriendsList.getInstance().getFriendsList());
-    array_adapter.refresh()
+    $("#loading").hide();
+    $("#dynamicBody").load("html/showFollowedFriends.html", function () {
+        $("#switch_map_nav").show()
+        var array_adapter = new FriendsListAdapter(document.getElementById('friend_list'), SingletonFriendsList
+            .getInstance().getFriendsList());
+        array_adapter.refresh();
+        $("#map_list").hide();
+        $("#button_friend_list").click(function() {
+            $("#map").hide();
+            $("#button_map").removeClass("btn-select").addClass("btn-default");
+            $("#button_friend_list").removeClass("btn-default").addClass("btn-select");
+            $("#friend_list").show();
+        });
+        $("#button_map").click(function() {
+            $("#button_friend_list").removeClass("btn-select").addClass("btn-default");
+            $("#button_map").removeClass("btn-default").addClass("btn-select");
+            $("#friend_list").hide();
+            $("#map").show();
+            google.maps.event.trigger(map, 'resize');
+        });
+    })
+
 }
 
 
 
 function logout() {
+    $("#loading").show();
+    $("#dynamicBody").hide();
     $.ajax({
         url: "https://ewserver.di.unimi.it/mobicomp/geopost/logout?session_id=" + SingletonUser.getInstance().session_id,
         success: function (result) {
@@ -146,6 +151,9 @@ function logout() {
 
 function showUpdateStatusPage() {
     showBackHidesetting();
+    $("#loading").show();
+    $("#dynamicBody").hide();
+
     $("#dynamicBody").load("html/showUpdateStatusPage.html", function () {
         // if (confirm('Are you sure you want to save this thing into the database?')) {
         //     // Save it!
@@ -155,9 +163,9 @@ function showUpdateStatusPage() {
         SingletonUser.getInstance().position = null;
         getMapLocation();
         $("#submitPost").click(function () {
+            $("#loading").show();
+            $("#dynamicBody").hide();
             var status = $("#post").val();
-
-
             if (SingletonUser.getInstance().position != null) {
                 $.ajax({
                     url: "https://ewserver.di.unimi.it/mobicomp/geopost/status_update?session_id="
@@ -165,6 +173,8 @@ function showUpdateStatusPage() {
                     + "&lon=" + SingletonUser.getInstance().position.lon,
 
                     success: function (result) {
+                        $("#loading").hide();
+                        $("#dynamicBody").show();
                         console.log("Messaggio postato! with result=" + result);
                         console.log(" " + status)
                         SingletonUser.getInstance().status = status;
@@ -181,8 +191,12 @@ function showUpdateStatusPage() {
 
 function showAddFriendPage() {
     showBackHidesetting();
+    $("#loading").show();
+    $("#dynamicBody").hide();
     $("#dynamicBody").load("html/showAddFriendPage.html",
         function () {
+            $("#loading").hide();
+            $("#dynamicBody").show();
             $("#inputFriend").keyup(
                 //TODO autocomplete
                 function () {
@@ -193,6 +207,8 @@ function showAddFriendPage() {
                         + SingletonUser.getInstance().session_id + '&usernamestart=' + name
                         + "&limit=20",
                         success: function (result) {
+                            $("#loading").hide();
+                            $("#dynamicBody").show();
                             console.log(result.usernames);
                             $(function () {
                                 var availableTags = result.usernames;
@@ -207,7 +223,7 @@ function showAddFriendPage() {
                     })
                 }
             )
-            $("#showAddFriendPage").click(function () {
+            $("#followFriend").click(function () {
                 var name = $("#inputFriend").val();
                 $.ajax({
                     url: 'https://ewserver.di.unimi.it/mobicomp/geopost/follow?session_id=' +
@@ -227,9 +243,13 @@ function showAddFriendPage() {
 
 
 function getProfile() {
+    $("#loading").show();
+    $("#dynamicBody").hide();
     $.ajax({
         url: 'https://ewserver.di.unimi.it/mobicomp/geopost/profile?session_id=' + SingletonUser.getInstance().session_id,
         success: function (user) {
+            $("#loading").hide();
+            $("#dynamicBody").show();
             console.log(user);
             SingletonUser.getInstance().username = user.username;
             SingletonUser.getInstance().status = user.msg;
@@ -243,12 +263,32 @@ function getProfile() {
 }
 
 function showProfilePage() {
+    $("#loading").show();
+    $("#dynamicBody").hide();
     showBackHidesetting()
-
     getProfile();
     console.log(SingletonUser.getInstance());
     $("#dynamicBody").load("html/profile.html", function () {
+        $("#dynamicBody").show();
         initMap([SingletonUser.getInstance()]);
     })
 }
 
+
+function loadFriends() {
+    $("#loading").show();
+    $.ajax({
+        url: "https://ewserver.di.unimi.it/mobicomp/geopost/followed?session_id=" + SingletonUser.getInstance()
+            .session_id,
+        success: function (result) {
+            $("#loading").hide();
+            var people = result.followed;
+            people.forEach(function (person) {
+                SingletonFriendsList.getInstance().addFriend(person);
+
+            })
+            showFollowedFriends();
+            $("nav").show();
+        }
+    })
+}
