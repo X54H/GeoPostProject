@@ -58,11 +58,18 @@ function showSettingHideback() {
 
 // Update DOM on a Received Event
 function receivedEvent(id) {
+    $("#loading").hide();
+    $("#form-login").show();
     console.log(id);
     //TODO Bug doppio click da risolvere.
     $("#sub").click(function () {
         login()
     })
+}
+
+
+function clickAction(action) {
+    action();
 }
 
 function login () {
@@ -97,11 +104,13 @@ function login () {
 }
 
 function loadFriends() {
+    $("#loading").show();
     $.ajax({
         url: "https://ewserver.di.unimi.it/mobicomp/geopost/followed?session_id=" + SingletonUser.getInstance()
             .session_id,
         success: function (result) {
-                var people = result.followed;
+            $("#loading").hide();
+            var people = result.followed;
                 people.forEach(function (person) {
                     SingletonFriendsList.getInstance().addFriend(person);
 
@@ -235,6 +244,7 @@ function getProfile() {
 
 function showProfilePage() {
     showBackHidesetting()
+
     getProfile();
     console.log(SingletonUser.getInstance());
     $("#dynamicBody").load("html/profile.html", function () {

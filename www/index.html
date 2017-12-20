@@ -38,14 +38,15 @@
 
     <div id="mySidenav" class="sidenav" style="padding-top: 50px">
         <a href="javascript:void(0)"  class="closebtn" onclick="closeNav()" style="padding-top: 50px" >&times;</a>
-        <a href="#" onclick="showProfilePage();" id="profile">Profile</a>
-        <a href="#" onclick="showUpdateStatusPage();">Update Status</a>
-        <a href="#" onclick="showAddFriendPage()">Add Friend</a>
-        <a href="#" onclick="showFollowedFriends()">Followed Friends</a>
-        <a href="#" onclick="logout()">Logout</a>
+        <a href="#" onclick="clickAction(showProfilePage);" id="profile">Profile</a>
+        <a href="#" onclick="clickAction(showUpdateStatusPage);">Update Status</a>
+        <a href="#" onclick="clickAction(showAddFriendPage)">Add Friend</a>
+        <a href="#" onclick="clickAction(showFollowedFriends)">Followed Friends</a>
+        <a href="#" onclick="clickAction(logout())">Logout</a>
     </div>
 
     <div id="dynamicBody" class="container-fluid">
+        <div id="form-login" style="display: none">
             <h2 class="form-signin-heading">GeoPost</h2>
             <label for="inputUsername" class="sr-only">Username</label>
             <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
@@ -57,7 +58,10 @@
                 </label>
             </div>
             <button id="sub" class="btn btn-primary btn-lg btn-block">Sign in</button>
-        </div> <!-- /container -->
+        </div>
+        </div> <!-- /container-fluid -->
+
+        <img src="img/loading.gif" id="loading"/>
     </div>
 <!--JS-->
     <script type="text/javascript" src="js/index.js"></script>
