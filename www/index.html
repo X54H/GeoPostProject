@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'default-src' 'unsafe-inline'; media-src *; connect-src 'self' http://10.0.2.2">-->
+    <!-- Bootstrap CSS -->
+    <title>GeoPost</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE8OW9R6UyM30AoZbPAn5hRwWQA_pIdsY" async defer></script>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+</head>
+
+<!--TODO RENDERE TUTTO COERENTE BOOTSTRAP, ETC-->
+<body onload="onLoad()">
+
+<div id="app">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="display: none">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a id="setting" class="navbar-brand" href="#">
+                    <span  class="glyphicon glyphicon-menu-hamburger" onclick="openNav();"></span>
+                </a>
+                <a id="back" class="navbar-brand" href="#" style="display: none;">
+                    <span onclick="loadFriends()" class="glyphicon glyphicon-menu-left"></span>
+                </a>
+                <a class="navbar-brand" href="#">GeoPost</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mySidenav" class="sidenav" style="padding-top: 50px">
+        <a href="javascript:void(0)"  class="closebtn" onclick="closeNav()" style="padding-top: 50px" >&times;</a>
+        <a href="#" onclick="showProfile();">Profile</a>
+        <a href="#" onclick="postMessage();">Update Stats</a>
+        <a href="#" onclick="followFriend();">Find Friend</a>
+        <a href="#" id="bottone_lista" onclick="array_adapter.refresh();">Friends</a>
+        <a href="#" id="bottone_mappa">Map</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div id="dynamicBody" class="container-fluid">
+            <h2 class="form-signin-heading">GeoPost</h2>
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <button id="sub" class="btn btn-primary btn-lg btn-block">Sign in</button>
+        </div> <!-- /container -->
+    </div>
+<!--JS-->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/person.js"> </script>
+    <script type="text/javascript" src="js/map.js"></script>
+</body>
+</html>
