@@ -28,7 +28,7 @@
                 <a id="setting" class="navbar-brand" href="#">
                     <span  class="glyphicon glyphicon-menu-hamburger" onclick="openNav();"></span>
                 </a>
-                <a id="back" class="navbar-brand" href="#" style="display: none;">
+                <a id="back" onclick="showFollowedFriends();" class="navbar-brand" href="#" style="display: none;">
                     <span onclick="loadFriends()" class="glyphicon glyphicon-menu-left"></span>
                 </a>
                 <a class="navbar-brand" href="#">GeoPost</a>
@@ -38,11 +38,10 @@
 
     <div id="mySidenav" class="sidenav" style="padding-top: 50px">
         <a href="javascript:void(0)"  class="closebtn" onclick="closeNav()" style="padding-top: 50px" >&times;</a>
-        <a href="#" onclick="showProfile();">Profile</a>
-        <a href="#" onclick="postMessage();">Update Stats</a>
-        <a href="#" onclick="followFriend();">Find Friend</a>
-        <a href="#" id="bottone_lista" onclick="array_adapter.refresh();">Friends</a>
-        <a href="#" id="bottone_mappa">Map</a>
+        <a href="#" onclick="showProfilePage();" id="profile">Profile</a>
+        <a href="#" onclick="showUpdateStatusPage();">Update Status</a>
+        <a href="#" onclick="showAddFriendPage()">Add Friend</a>
+        <a href="#" onclick="showFollowedFriends()">Followed Friends</a>
         <a href="#" onclick="logout()">Logout</a>
     </div>
 
@@ -61,9 +60,9 @@
         </div> <!-- /container -->
     </div>
 <!--JS-->
-    <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/person.js"> </script>
     <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
 </body>
 </html>

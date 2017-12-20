@@ -35,6 +35,27 @@ function onPause () {
         console.log("pausaaa")
     }
 
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+
+function showBackHidesetting() {
+    closeNav();
+    $("#setting").hide();
+    $("#back").show();
+}
+
+function showSettingHideback() {
+    closeNav();
+    $("#setting").show();
+    $("#back").hide();
+}
+
+
 // Update DOM on a Received Event
 function receivedEvent(id) {
     console.log(id);
@@ -43,7 +64,6 @@ function receivedEvent(id) {
         login()
     })
 }
-
 
 function login () {
     username = $("#inputUsername").val();
@@ -98,37 +118,8 @@ function loadFriends() {
 
 function showFollowedFriends() {
     showSettingHideback();
-    var riga = "";
     console.log(SingletonFriendsList.getInstance().getFriendsList());
-
-    $("#dynamicBody").load("html/followedFriends.html", function () {
-        var a = '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
-        var d = '<div class="d-flex w-100 justify-content-between">';
-        SingletonFriendsList.getInstance().getFriendsList().forEach(function (person) {
-            riga += a + d;
-            riga += '<h5 class="mb-1">' + person.username + '</h5>';
-            riga += '</div>';
-            if (person.status != null) riga += '<p class="mb-1">' + person.status + '</p>';
-            riga += '<small style="position: absolute;\n' +
-                'top: 12px;\n' +
-                'right: 16px;">15 km</small>'
-            riga += '</a>'
-
-        })
-        $(".list-group").html(riga);
-
-        $("#mappa").hide();
-        $("#bottone_lista").click(function() {
-            $("#mappa").hide();
-            $("#lista").show();
-        });
-        $("#bottone_mappa").click(function() {
-            $("#lista").hide();
-            $("#mappa").show();
-            google.maps.event.trigger(map, 'resize');
-        });
-        initMap(SingletonFriendsList.getInstance().getFriendsList());
-    })
+    array_adapter.refresh()
 }
 
 
@@ -144,9 +135,9 @@ function logout() {
 }
 
 
-function postMessage() {
+function showUpdateStatusPage() {
     showBackHidesetting();
-    $("#dynamicBody").load("html/postMessage.html", function () {
+    $("#dynamicBody").load("html/showUpdateStatusPage.html", function () {
         // if (confirm('Are you sure you want to save this thing into the database?')) {
         //     // Save it!
         // } else {
@@ -179,9 +170,9 @@ function postMessage() {
     })
 }
 
-function followFriend() {
+function showAddFriendPage() {
     showBackHidesetting();
-    $("#dynamicBody").load("html/followFriend.html",
+    $("#dynamicBody").load("html/showAddFriendPage.html",
         function () {
             $("#inputFriend").keyup(
                 //TODO autocomplete
@@ -207,7 +198,7 @@ function followFriend() {
                     })
                 }
             )
-            $("#followFriend").click(function () {
+            $("#showAddFriendPage").click(function () {
                 var name = $("#inputFriend").val();
                 $.ajax({
                     url: 'https://ewserver.di.unimi.it/mobicomp/geopost/follow?session_id=' +
@@ -242,8 +233,8 @@ function getProfile() {
     })
 }
 
-function showProfile() {
-    showBackHidesetting();
+function showProfilePage() {
+    showBackHidesetting()
     getProfile();
     console.log(SingletonUser.getInstance());
     $("#dynamicBody").load("html/profile.html", function () {
@@ -251,22 +242,3 @@ function showProfile() {
     })
 }
 
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-}
-
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
-
-function showBackHidesetting() {
-    closeNav();
-    $("#setting").hide();
-    $("#back").show();
-}
-
-function showSettingHideback() {
-    closeNav();
-    $("#setting").show();
-    $("#back").hide();
-}

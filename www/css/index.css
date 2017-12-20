@@ -89,8 +89,13 @@
     display:none;
 }
 
-#map {height: 400px;  width: 100%;}
+#map {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height:600px;
 
+}
 
 @keyframes fade {
     from { opacity: 1.0; }
