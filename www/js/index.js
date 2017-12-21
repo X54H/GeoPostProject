@@ -37,26 +37,6 @@ function onPause () {
         console.log("pausaaa")
     }
 
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-}
-
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
-
-function showBackHidesetting() {
-    closeNav();
-    $("#setting").hide();
-    $("#back").show();
-}
-
-function showSettingHideback() {
-    closeNav();
-    $("#setting").show();
-    $("#back").hide();
-}
-
 
 // Update DOM on a Received Event
 function receivedEvent(id) {
@@ -111,21 +91,19 @@ function login () {
 function showFollowedFriends() {
     showSettingHideback();
     $("#loading").hide();
+    $("#map").hide();
+
     $("#dynamicBody").load("html/showFollowedFriends.html", function () {
-        $("#switch_map_nav").show()
         var array_adapter = new FriendsListAdapter(document.getElementById('friend_list'), SingletonFriendsList
             .getInstance().getFriendsList());
         array_adapter.refresh();
-        $("#map_list").hide();
+        initMap(SingletonFriendsList.getInstance().getFriendsList(), 'map');
+
         $("#button_friend_list").click(function() {
             $("#map").hide();
-            $("#button_map").removeClass("btn-select").addClass("btn-default");
-            $("#button_friend_list").removeClass("btn-default").addClass("btn-select");
             $("#friend_list").show();
         });
         $("#button_map").click(function() {
-            $("#button_friend_list").removeClass("btn-select").addClass("btn-default");
-            $("#button_map").removeClass("btn-default").addClass("btn-select");
             $("#friend_list").hide();
             $("#map").show();
             google.maps.event.trigger(map, 'resize');
@@ -160,6 +138,8 @@ function showUpdateStatusPage() {
         // } else {
         //     // Do nothing!
         // }
+        $("#loading").hide();
+        $("#dynamicBody").show();
         SingletonUser.getInstance().position = null;
         getMapLocation();
         $("#submitPost").click(function () {
@@ -270,7 +250,10 @@ function showProfilePage() {
     console.log(SingletonUser.getInstance());
     $("#dynamicBody").load("html/profile.html", function () {
         $("#dynamicBody").show();
-        initMap([SingletonUser.getInstance()]);
+        initMap([SingletonUser.getInstance()], 'map_profile');
+        $("#username").html(SingletonUser.getInstance().username);
+        $("#status").html(SingletonUser.getInstance().status);
+
     })
 }
 

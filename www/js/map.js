@@ -48,9 +48,9 @@ function placeMarker(person) {
     });
 }
 
-function initMap(personList) {
+function initMap(personList, map_id) {
     infowindow = new google.maps.InfoWindow();
-    map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById(map_id), {
         zoom: 2,
         //TODO Capire dove centrare la mappa
         center:{lat: 45.506488, lng:  9.185794}
