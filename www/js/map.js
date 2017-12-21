@@ -1,7 +1,7 @@
 var map;
 var infowindow;
 
-function getMapLocation() {
+function getLocation() {
     var gpsOptions = {maximumAge: 0, timeout: 1000, enableHighAccuracy: true};
     navigator.geolocation.getCurrentPosition
     (gpsSuccess, gpsError, gpsOptions);
@@ -25,7 +25,8 @@ function gpsError(error, gpsOptions) {
 function gpsSuccess(position) {
     // Updating Model
     SingletonUser.getInstance().position = {'lat' : position.coords.latitude, 'lon' : position.coords.longitude};
-    SingletonFriendsList.getInstance().sort(position)
+    SingletonFriendsList.getInstance().sort({'lat' : position.coords.latitude, 'lon' : position.coords.longitude})
+    console.log('success');
 }
 
 function placeMarker(person) {

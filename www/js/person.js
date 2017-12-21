@@ -7,6 +7,7 @@ function Person(username, status, lat, lon) {
     this.username = username;
     this.status = status;
     this.position = {'lat' : Number(lat), 'lon' : Number(lon)}
+    this.distance = null
 }
 
 Person.prototype.toString = function () {
@@ -51,12 +52,12 @@ FriendsList.prototype.getFriendByUsername = function (username) {
 FriendsList.prototype.sort = function (position) {
     this.friends.forEach(function (friend) {
         friend.distance = getDistance(friend.position, position)
+        console.log(friend.distance)
     })
     return this.friends.sort(function (friend1, friend2) {
         return friend1.distance - friend2.distance
     })
 }
-
 
 
 function ListAdapter(div, list) {
@@ -69,7 +70,7 @@ ListAdapter.prototype.generateListElement = function (element) {
 }
 
 ListAdapter.prototype.refresh = function () {
-    var toPrint = '<ul>';
+    var toReturn = '<ul>';
     for (var i = 0; i < this.list.length; i++){
         toReturn += this.generateListElement(this.list[i]);
     }
@@ -98,7 +99,7 @@ function FriendsListAdapter(div, friendsList) {
         if (person.status != null) toReturn += '<p class="mb-1">' + person.status + '</p>';
         toReturn += '<small style="position: absolute;\n' +
             'top: 12px;\n' +
-            'right: 16px;">15 km</small>'
+            'right: 16px;">mt if person.distance</small>'
         toReturn += '</a>'
         return toReturn;
     }

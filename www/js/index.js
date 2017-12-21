@@ -57,10 +57,10 @@ function clickAction(action) {
 }
 
 function login () {
-    username = $("#inputUsername").val();
-    password = $("#inputPassword").val();
-    // var username = "giuse";
-    // var password = "bigs123qwert";
+    // username = $("#inputUsername").val();
+    // password = $("#inputPassword").val();
+    var username = "giuse";
+    var password = "bigs123qwert";
     console.log(username);
     console.log(password);
     //TODO gestire gli errori login
@@ -97,7 +97,7 @@ function showFollowedFriends() {
         var array_adapter = new FriendsListAdapter(document.getElementById('friend_list'), SingletonFriendsList
             .getInstance().getFriendsList());
         array_adapter.refresh();
-
+        console.log(SingletonFriendsList.getInstance().getFriendsList());
 
         $("#button_friend_list").click(function() {
             $("#map").hide();
@@ -143,7 +143,7 @@ function showUpdateStatusPage() {
         $("#loading").hide();
         $("#dynamicBody").show();
         SingletonUser.getInstance().position = null;
-        getMapLocation();
+        getLocation();
         $("#submitPost").click(function () {
             $("#loading").show();
             $("#dynamicBody").hide();
