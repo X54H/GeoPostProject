@@ -7,7 +7,7 @@ function Person(username, status, lat, lon) {
     this.username = username;
     this.status = status;
     this.position = {'lat' : Number(lat), 'lon' : Number(lon)}
-    this.distance = null
+    this.distance = ""
 }
 
 Person.prototype.toString = function () {
@@ -99,7 +99,7 @@ function FriendsListAdapter(div, friendsList) {
         if (person.status != null) toReturn += '<p class="mb-1">' + person.status + '</p>';
         toReturn += '<small style="position: absolute;\n' +
             'top: 12px;\n' +
-            'right: 16px;">mt if person.distance</small>'
+            'right: 16px;">mt ' + parseInt(person.distance) + '</small>'
         toReturn += '</a>'
         return toReturn;
     }

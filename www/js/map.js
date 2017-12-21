@@ -2,7 +2,7 @@ var map;
 var infowindow;
 
 function getLocation() {
-    var gpsOptions = {maximumAge: 0, timeout: 1000, enableHighAccuracy: true};
+    var gpsOptions = {maximumAge: 0, timeout: 5000, enableHighAccuracy: true};
     navigator.geolocation.getCurrentPosition
     (gpsSuccess, gpsError, gpsOptions);
 }
@@ -16,8 +16,7 @@ function gpsRetry(gpsOptions) {
 function gpsError(error, gpsOptions) {
     alert('code: '    + error.code    + "\n" +
         'message: ' + error.message + "\n" +
-        "Attiva la geolocalizzazione per usare al meglio la tua app!");
-    SingletonUser.getInstance().position = null;
+        "You can't use GeoPost without geolocation!");
     console.log("gps fail!!")
     gpsRetry(gpsOptions);
 }
@@ -25,8 +24,14 @@ function gpsError(error, gpsOptions) {
 function gpsSuccess(position) {
     // Updating Model
     SingletonUser.getInstance().position = {'lat' : position.coords.latitude, 'lon' : position.coords.longitude};
-    SingletonFriendsList.getInstance().sort({'lat' : position.coords.latitude, 'lon' : position.coords.longitude})
-    console.log('success');
+    // SingletonFriendsList.getInstance().sort({'lat' : position.coords.latitude, 'lon' : position.coords.longitude})
+    console.log(SingletonUser.getInstance().position);
+    $("#loading").hide();
+    $("#form-login").show();
+    $("#sub").click(function () {
+        $("#loading").show();
+        login()
+    })
 }
 
 function placeMarker(person) {

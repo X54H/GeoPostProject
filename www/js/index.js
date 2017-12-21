@@ -40,14 +40,10 @@ function onPause () {
 
 // Update DOM on a Received Event
 function receivedEvent(id) {
-    $("#loading").hide();
-    $("#form-login").show();
+    getLocation();
     console.log(id);
     //TODO Bug doppio click da risolvere.
-    $("#sub").click(function () {
-        $("#loading").show();
-        login()
-    })
+
 }
 
 
@@ -82,7 +78,8 @@ function login () {
         success: function(session_id){
             console.log(session_id);
             SingletonUser.getInstance().session_id = session_id;
-            getProfile(loadFriends);;
+            // getProfile();
+            loadFriends();
         }
     });
 }
@@ -94,7 +91,7 @@ function showFollowedFriends() {
     $("#map").hide();
 
     $("#dynamicBody").load("html/showFollowedFriends.html", function () {
-        var array_adapter = new FriendsListAdapter(document.getElementById('friend_list'), SingletonFriendsList
+        array_adapter = new FriendsListAdapter(document.getElementById('friend_list'), SingletonFriendsList
             .getInstance().getFriendsList());
         array_adapter.refresh();
         console.log(SingletonFriendsList.getInstance().getFriendsList());
@@ -142,8 +139,6 @@ function showUpdateStatusPage() {
         // }
         $("#loading").hide();
         $("#dynamicBody").show();
-        SingletonUser.getInstance().position = null;
-        getLocation();
         $("#submitPost").click(function () {
             $("#loading").show();
             $("#dynamicBody").hide();
@@ -224,7 +219,7 @@ function showAddFriendPage() {
 
 
 
-function getProfile(callback) {
+function getProfile() {
     $("#loading").show();
     $("#dynamicBody").hide();
     $.ajax({
@@ -233,10 +228,10 @@ function getProfile(callback) {
             $("#loading").hide();
             $("#dynamicBody").show();
             console.log(user);
-            SingletonUser.getInstance().username = user.username;
-            SingletonUser.getInstance().status = user.msg;
-            SingletonUser.getInstance().position = {'lat' : user.lat, 'lon' : user.lon}
-            callback();
+            var u = new Person(user.username, user.ms, user.lat, user.lon)
+
+            initMap([u], 'map_profile');
+
         },
 
         error: function(xhr, status, error) {
@@ -249,11 +244,10 @@ function showProfilePage() {
     $("#loading").show();
     $("#dynamicBody").hide();
     showBackHidesetting()
-    getProfile();
     console.log(SingletonUser.getInstance());
     $("#dynamicBody").load("html/profile.html", function () {
+        getProfile();
         $("#dynamicBody").show();
-        initMap([SingletonUser.getInstance()], 'map_profile');
         $("#username").html(SingletonUser.getInstance().username);
         $("#status").html(SingletonUser.getInstance().status);
 
@@ -273,8 +267,10 @@ function loadFriends() {
                 SingletonFriendsList.getInstance().addFriend(person);
 
             })
-            console.log(SingletonUser.getInstance.position);
+            console.log(SingletonUser.getInstance().position);
             // var people = SingletonFriendsList.getInstance().sort(SingletonUser.getInstance.position);
+            SingletonFriendsList.getInstance().sort(SingletonUser.getInstance().position)
+
             showFollowedFriends();
             $("nav").show();
         }
