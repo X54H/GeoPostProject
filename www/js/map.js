@@ -23,8 +23,9 @@ function gpsError(error, gpsOptions) {
 }
 
 function gpsSuccess(position) {
+    // Updating Model
     SingletonUser.getInstance().position = {'lat' : position.coords.latitude, 'lon' : position.coords.longitude};
-    console.log("gps success!!")
+    SingletonFriendsList.getInstance().sort(position)
 }
 
 function placeMarker(person) {
@@ -51,7 +52,7 @@ function placeMarker(person) {
 function initMap(personList, map_id) {
     infowindow = new google.maps.InfoWindow();
     map = new google.maps.Map(document.getElementById(map_id), {
-        zoom: 2,
+        zoom: 4,
         //TODO Capire dove centrare la mappa
         center:{lat: 45.506488, lng:  9.185794}
     });

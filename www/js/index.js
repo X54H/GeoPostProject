@@ -76,13 +76,13 @@ function login () {
             console.log(xhr.statusText);
             console.log(textStatus);
             console.log(error);
+            alert(error)
 
         },
         success: function(session_id){
             console.log(session_id);
             SingletonUser.getInstance().session_id = session_id;
-            getProfile();
-            loadFriends();
+            getProfile(loadFriends);;
         }
     });
 }
@@ -97,7 +97,7 @@ function showFollowedFriends() {
         var array_adapter = new FriendsListAdapter(document.getElementById('friend_list'), SingletonFriendsList
             .getInstance().getFriendsList());
         array_adapter.refresh();
-        initMap(SingletonFriendsList.getInstance().getFriendsList(), 'map');
+
 
         $("#button_friend_list").click(function() {
             $("#map").hide();
@@ -106,7 +106,9 @@ function showFollowedFriends() {
         $("#button_map").click(function() {
             $("#friend_list").hide();
             $("#map").show();
-            google.maps.event.trigger(map, 'resize');
+            initMap(SingletonFriendsList.getInstance().getFriendsList(), 'map');
+
+            // google.maps.event.trigger(map, 'resize');
         });
     })
 
@@ -222,7 +224,7 @@ function showAddFriendPage() {
 
 
 
-function getProfile() {
+function getProfile(callback) {
     $("#loading").show();
     $("#dynamicBody").hide();
     $.ajax({
@@ -234,6 +236,7 @@ function getProfile() {
             SingletonUser.getInstance().username = user.username;
             SingletonUser.getInstance().status = user.msg;
             SingletonUser.getInstance().position = {'lat' : user.lat, 'lon' : user.lon}
+            callback();
         },
 
         error: function(xhr, status, error) {
@@ -270,6 +273,8 @@ function loadFriends() {
                 SingletonFriendsList.getInstance().addFriend(person);
 
             })
+            console.log(SingletonUser.getInstance.position);
+            // var people = SingletonFriendsList.getInstance().sort(SingletonUser.getInstance.position);
             showFollowedFriends();
             $("nav").show();
         }
