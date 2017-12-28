@@ -53,10 +53,10 @@ function clickAction(action) {
 }
 
 function login () {
-    // username = $("#inputUsername").val();
-    // password = $("#inputPassword").val();
-    var username = "giuse";
-    var password = "bigs123qwert";
+    username = $("#inputUsername").val();
+    password = $("#inputPassword").val();
+    // var username = "giuse";
+    // var password = "bigs123qwert";
     console.log(username);
     console.log(password);
     //TODO gestire gli errori login
@@ -73,12 +73,14 @@ function login () {
             console.log(textStatus);
             console.log(error);
             alert(error)
+            $("#loading").hide();
+
 
         },
         success: function(session_id){
             console.log(session_id);
             SingletonUser.getInstance().session_id = session_id;
-            // getProfile();
+            // loadProfile();
             loadFriends();
         }
     });
@@ -207,6 +209,7 @@ function showAddFriendPage() {
                     SingletonUser.getInstance().session_id + '&username=' + name,
                     success: function (result) {
                         alert(result);
+                        loadFriends();
                     },
                     error: function(xhr, status, error) {
                         alert(xhr.responseText);
@@ -218,8 +221,7 @@ function showAddFriendPage() {
 }
 
 
-
-function getProfile() {
+function loadProfile() {
     $("#loading").show();
     $("#dynamicBody").hide();
     $.ajax({
@@ -228,10 +230,10 @@ function getProfile() {
             $("#loading").hide();
             $("#dynamicBody").show();
             console.log(user);
-            var u = new Person(user.username, user.ms, user.lat, user.lon)
-
+            var u = new Person(user.username, user.msg, user.lat, user.lon)
             initMap([u], 'map_profile');
-
+            $("#username").html(user.username);
+            $("#status").html(user.msg);
         },
 
         error: function(xhr, status, error) {
@@ -246,10 +248,8 @@ function showProfilePage() {
     showBackHidesetting()
     console.log(SingletonUser.getInstance());
     $("#dynamicBody").load("html/profile.html", function () {
-        getProfile();
+        loadProfile();
         $("#dynamicBody").show();
-        $("#username").html(SingletonUser.getInstance().username);
-        $("#status").html(SingletonUser.getInstance().status);
 
     })
 }
@@ -263,7 +263,10 @@ function loadFriends() {
         success: function (result) {
             $("#loading").hide();
             var people = result.followed;
+            SingletonFriendsList.getInstance().reset();
             people.forEach(function (person) {
+                console.log(person);
+
                 SingletonFriendsList.getInstance().addFriend(person);
 
             })

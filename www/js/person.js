@@ -42,6 +42,11 @@ FriendsList.prototype.addFriend = function (person) {
         this.friends.push(f)
 }
 
+FriendsList.prototype.reset = function () {
+    this.friends = []
+
+}
+
 FriendsList.prototype.getFriendByUsername = function (username) {
     var index = this.friendExists(username);
     if (index !== -1)
