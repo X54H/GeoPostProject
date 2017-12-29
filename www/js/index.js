@@ -98,19 +98,23 @@ function showFollowedFriends() {
         array_adapter.refresh();
         console.log(SingletonFriendsList.getInstance().getFriendsList());
 
+        $("#button_friend_list").addClass("btn-success");
+
         $("#button_friend_list").click(function() {
             $("#map").hide();
             $("#friend_list").show();
             $("#refresh_button").show();
+            $("#button_map").removeClass("btn-success").addClass("btn-primary");
+            $("#button_friend_list").removeClass("btn-primary").addClass("btn-success");
 
         });
         $("#button_map").click(function() {
             $("#friend_list").hide();
             $("#refresh_button").hide();
-
+            $("#button_map").removeClass("btn-primary").addClass("btn-success");
+            $("#button_friend_list").removeClass("btn-success").addClass("btn-primary");;
             $("#map").show();
             initMap(SingletonFriendsList.getInstance().getFriendsList(), 'map');
-
             // google.maps.event.trigger(map, 'resize');
         });
     })
