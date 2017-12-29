@@ -84,9 +84,17 @@ background-color:#E4E4E4;
 
 
 
-#form-login{
-    margin-top: -70px;
+#form-login {
+    position: absolute;
+    width: 250px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -130px;
 }
+
+
 .btn-select {
     color: #fff;
     background-color: #000000;
@@ -100,6 +108,7 @@ background-color:#E4E4E4;
 
 .list-group{
     overflow: scroll;
+    margin-bottom: 50px;
 }
 
 /*body {*/
@@ -175,7 +184,7 @@ button:hover, a:hover {
 
 }
 
-#fixedbutton {
+#refresh_button {
     position: fixed;
     bottom: 10px;
     right: 10px;

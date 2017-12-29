@@ -101,9 +101,13 @@ function showFollowedFriends() {
         $("#button_friend_list").click(function() {
             $("#map").hide();
             $("#friend_list").show();
+            $("#refresh_button").show();
+
         });
         $("#button_map").click(function() {
             $("#friend_list").hide();
+            $("#refresh_button").hide();
+
             $("#map").show();
             initMap(SingletonFriendsList.getInstance().getFriendsList(), 'map');
 
@@ -266,7 +270,6 @@ function loadFriends() {
             SingletonFriendsList.getInstance().reset();
             people.forEach(function (person) {
                 console.log(person);
-
                 SingletonFriendsList.getInstance().addFriend(person);
 
             })
