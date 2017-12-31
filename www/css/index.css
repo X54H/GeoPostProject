@@ -200,3 +200,8 @@ button:hover, a:hover {
 .btn-primary{
     background-color: black;
 }
+
+#friend_list {
+    overflow-y: scroll;
+    height: 400px;
+}

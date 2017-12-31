@@ -4,7 +4,8 @@
   "displayName": "helloworld",
   "cordova": {
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-battery-status": {},
@@ -13,7 +14,9 @@
       "cordova-plugin-device": {},
       "cordova-plugin-dialogs": {},
       "cordova-plugin-file": {},
-      "cordova-plugin-geolocation": {},
+      "cordova-plugin-geolocation": {
+        "GEOLOCATION_USAGE_DESCRIPTION": "GeoPost"
+      },
       "cordova-plugin-globalization": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-network-information": {},
@@ -24,6 +27,7 @@
   "dependencies": {
     "android-versions": "^1.2.1",
     "cordova-android": "^6.4.0",
+    "cordova-ios": "^4.5.4",
     "cordova-plugin-battery-status": "~1.2.4",
     "cordova-plugin-camera": "~2.4.1",
     "cordova-plugin-device": "~1.1.6",

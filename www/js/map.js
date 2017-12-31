@@ -26,11 +26,23 @@ function gpsSuccess(position) {
     SingletonUser.getInstance().position = {'lat' : position.coords.latitude, 'lon' : position.coords.longitude};
     // SingletonFriendsList.getInstance().sort({'lat' : position.coords.latitude, 'lon' : position.coords.longitude})
     console.log(SingletonUser.getInstance().position);
+    var storage = window.localStorage;
+    var session_id = storage.getItem("session_id");
+    if(session_id != null){
+        SingletonUser.getInstance().session_id = session_id;
+        loadModelFriends();
+        // storage.removeItem("session_id");
+        // var value = storage.getItem("session_id");
+        console.log("value=", session_id);
+    }
+    else {
+        $("#form-login").show();
+    }
+
     $("#loading").hide();
-    $("#form-login").show();
     $("#sub").click(function () {
         $("#loading").show();
-        login()
+        login();
     })
 }
 
@@ -60,7 +72,8 @@ function initMap(personList, map_id) {
     map = new google.maps.Map(document.getElementById(map_id), {
         zoom: 4,
         //TODO Capire dove centrare la mappa
-        center:{lat: 45.506488, lng:  9.185794}
+        center: {lat: personList[0].position.lat, lng: personList[0].position.lon}
+            // {lat: 45.506488, lng:  9.185794}
     });
 
     for(var i=0; i < personList.length; i++)

@@ -61,7 +61,9 @@
       "id": "cordova-plugin-geolocation@~2.4.3"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "GEOLOCATION_USAGE_DESCRIPTION": "GeoPost"
+    }
   },
   "cordova-plugin-globalization": {
     "source": {

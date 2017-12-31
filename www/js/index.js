@@ -17,10 +17,7 @@
 * under the License.
 */
 
-// TODO Sistemare logout
 // TODO Handling Errors
-//TODO PROFILE QUALCHE NON MOSTRA LA POSIZIONE SULLA MAPPA
-//TODO sistemare view
 
 function onLoad() {
     document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
@@ -42,7 +39,6 @@ function onPause () {
 function receivedEvent(id) {
     getLocation();
     console.log(id);
-    //TODO Bug doppio click da risolvere.
 
 }
 
@@ -55,8 +51,8 @@ function clickAction(action) {
 function login () {
     username = $("#inputUsername").val();
     password = $("#inputPassword").val();
-    // var username = "giuse";
-    // var password = "bigs123qwert";
+    // var username = "Giuse";
+    // var password = "123";
     console.log(username);
     console.log(password);
     //TODO gestire gli errori login
@@ -80,19 +76,21 @@ function login () {
         success: function(session_id){
             console.log(session_id);
             SingletonUser.getInstance().session_id = session_id;
+            var storage = window.localStorage;
+            storage.setItem("session_id", session_id);
             // loadProfile();
-            loadFriends();
+            loadModelFriends();
         }
     });
 }
 
 
-function showFollowedFriends() {
+function updateViewFriends() {
     showSettingHideback();
     $("#loading").hide();
     $("#map").hide();
 
-    $("#dynamicBody").load("html/showFollowedFriends.html", function () {
+    $("#dynamicBody").load("html/viewFriends.html", function () {
         array_adapter = new FriendsListAdapter(document.getElementById('friend_list'), SingletonFriendsList
             .getInstance().getFriendsList());
         array_adapter.refresh();
@@ -130,6 +128,8 @@ function logout() {
         url: "https://ewserver.di.unimi.it/mobicomp/geopost/logout?session_id=" + SingletonUser.getInstance().session_id,
         success: function (result) {
             console.log("logout eseguito!");
+            var storage = window.localStorage;
+            storage.removeItem("session_id");
             window.location.href = "index.html"
         }
     })
@@ -185,7 +185,6 @@ function showAddFriendPage() {
             $("#loading").hide();
             $("#dynamicBody").show();
             $("#inputFriend").keyup(
-                //TODO autocomplete
                 function () {
                     var name = $("#inputFriend").val();
                     console.log(name);
@@ -217,7 +216,7 @@ function showAddFriendPage() {
                     SingletonUser.getInstance().session_id + '&username=' + name,
                     success: function (result) {
                         alert(result);
-                        loadFriends();
+                        loadModelFriends();
                     },
                     error: function(xhr, status, error) {
                         alert(xhr.responseText);
@@ -263,7 +262,7 @@ function showProfilePage() {
 }
 
 
-function loadFriends() {
+function loadModelFriends() {
     $("#loading").show();
     $.ajax({
         url: "https://ewserver.di.unimi.it/mobicomp/geopost/followed?session_id=" + SingletonUser.getInstance()
@@ -281,7 +280,7 @@ function loadFriends() {
             // var people = SingletonFriendsList.getInstance().sort(SingletonUser.getInstance.position);
             SingletonFriendsList.getInstance().sort(SingletonUser.getInstance().position)
 
-            showFollowedFriends();
+            updateViewFriends();
             $("nav").show();
         }
     })
