@@ -107,7 +107,6 @@ background-color: #E4E4E4;
 
 
 .list-group{
-    overflow: scroll;
     margin-bottom: 50px;
 }
 
@@ -202,6 +201,6 @@ button:hover, a:hover {
 }
 
 #friend_list {
-    overflow-y: scroll;
-    height: 400px;
+    height: 80vh;
+    overflow: auto;
 }
