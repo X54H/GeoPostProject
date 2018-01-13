@@ -17,7 +17,11 @@
 * under the License.
 */
 
-// TODO Handling Errors
+// TODO Handling Error
+// TODO - Simulatore non mostra i marker con emulazione grafica via software -
+// TODO - Come gestire mancata rilevazione della posizione? Obbligare l'utente ad attivarla?
+// TODO La mappa in profilo va sistemata
+// Migliorare la user experience
 
 function onLoad() {
     document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
@@ -96,19 +100,18 @@ function updateViewFriends() {
         array_adapter.refresh();
         console.log(SingletonFriendsList.getInstance().getFriendsList());
 
-        $("#button_friend_list").addClass("btn-success");
+        $("#button_friend_list").removeClass("btn-primary").addClass("btn-success");
+        $("#button_map").removeClass("btn-success").addClass("btn-primary");
 
         $("#button_friend_list").click(function() {
             $("#map").hide();
             $("#friend_list").show();
-            $("#refresh_button").show();
             $("#button_map").removeClass("btn-success").addClass("btn-primary");
             $("#button_friend_list").removeClass("btn-primary").addClass("btn-success");
 
         });
         $("#button_map").click(function() {
             $("#friend_list").hide();
-            $("#refresh_button").hide();
             $("#button_map").removeClass("btn-primary").addClass("btn-success");
             $("#button_friend_list").removeClass("btn-success").addClass("btn-primary");;
             $("#map").show();
@@ -253,6 +256,7 @@ function showProfilePage() {
     $("#loading").show();
     $("#dynamicBody").hide();
     showBackHidesetting()
+    $("#logout-button").show();
     console.log(SingletonUser.getInstance());
     $("#dynamicBody").load("html/profile.html", function () {
         loadProfile();

@@ -124,7 +124,7 @@ var getDistance = function(p1, p2) {
         Math.sin(dLong / 2) * Math.sin(dLong / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
-    return d/1000; // returns the distance in meter
+    return d; // returns the distance in meter
 };
 
 
