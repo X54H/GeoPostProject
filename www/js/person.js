@@ -6,7 +6,8 @@
 function Person(username, status, lat, lon) {
     this.username = username;
     this.status = status;
-    this.position = {'lat' : Number(lat), 'lon' : Number(lon)}
+    if (lat == null || lon == null) this.position = null;
+    else this.position = {'lat' : Number(lat), 'lon' : Number(lon)}
     this.distance = ""
 }
 
@@ -16,11 +17,14 @@ Person.prototype.getStatus = function () {
 }
 
 Person.prototype.getDistance = function () {
-    var distance = parseInt(this.distance);
-    if (distance < 1000){
-        return distance + " mt";
+    if (this.position != null) {
+        var distance = parseInt(this.distance);
+        if (distance < 1000) {
+            return distance + " mt";
+        }
+        else return distance/1000 + " km";
     }
-    else return distance/1000 + " km";
+    else return "Position is not available"
 }
 
 Person.prototype.toString = function () {
@@ -150,7 +154,6 @@ function FriendsListAdapterV2(div, friendsList) {
                         '<p>' + person.getDistance() +'</p>'
                     + '</div>' +
                     '</div>' +
-                    '<div class="clearfix"></div>' +
                     '<hr />'
         return toReturn;
     }
@@ -161,15 +164,20 @@ var rad = function(x) {
 };
 
 var getDistance = function(p1, p2) {
-    var R = 6378137; // Earth’s mean radius in meter
-    var dLat = rad(p2.lat - p1.lat);
-    var dLong = rad(p2.lon - p1.lon);
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
-        Math.sin(dLong / 2) * Math.sin(dLong / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    return d; // returns the distance in meter
+    console.log(p2);
+    console.log(p1);
+    if (p1 != null && p2 !=null){
+        var R = 6378137; // Earth’s mean radius in meter
+        var dLat = rad(p2.lat - p1.lat);
+        var dLong = rad(p2.lon - p1.lon);
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
+            Math.sin(dLong / 2) * Math.sin(dLong / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        return d; // returns the distance in meter
+    }
+    else return null;
 };
 
 
