@@ -95,7 +95,7 @@ function updateViewFriends() {
     $("#map").hide();
 
     $("#dynamicBody").load("html/viewFriends.html", function () {
-        array_adapter = new FriendsListAdapter(document.getElementById('friend_list'), SingletonFriendsList
+        array_adapter = new FriendsListAdapterV2(document.getElementById('friend_list'), SingletonFriendsList
             .getInstance().getFriendsList());
         array_adapter.refresh();
         console.log(SingletonFriendsList.getInstance().getFriendsList());

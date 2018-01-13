@@ -10,6 +10,19 @@ function Person(username, status, lat, lon) {
     this.distance = ""
 }
 
+Person.prototype.getStatus = function () {
+    if (this.status == null) return "Status not updated";
+    else return this.status;
+}
+
+Person.prototype.getDistance = function () {
+    var distance = parseInt(this.distance);
+    if (distance < 1000){
+        return distance + " mt";
+    }
+    else return distance/1000 + " km";
+}
+
 Person.prototype.toString = function () {
     return self.username
 }
@@ -86,7 +99,7 @@ ListAdapter.prototype.refresh = function () {
 }
 
 function FriendsListAdapter(div, friendsList) {
-    ListAdapter.call(this, div, friendsList)
+    ListAdapter.call(this, div, friendsList);
     FriendsList.prototype = Object.create(FriendsListAdapter.prototype)
     FriendsListAdapter.prototype.refresh = function () {
         var toReturn = '<div class="list-group">';
@@ -110,6 +123,38 @@ function FriendsListAdapter(div, friendsList) {
     }
 }
 
+function FriendsListAdapterV2(div, friendsList) {
+    ListAdapter.call(this, div, friendsList);
+    FriendsList.prototype = Object.create(FriendsListAdapterV2.prototype);
+    FriendsListAdapterV2.prototype.refresh = function () {
+        var toReturn = '<div class="row">' + '<div class="shadow">';
+        for (var i = 0; i < this.list.length; i++){
+            toReturn += this.generateListElement(this.list[i]);
+        }
+
+        toReturn += '</div></div>';
+        this.div.innerHTML = toReturn;
+    }
+
+    FriendsListAdapterV2.prototype.generateListElement = function (person) {
+        var toReturn =
+                '<div class="col-sm-12">' +
+                    '<div class="col-sm-2">' +
+                        '<img src="https://www.infrascan.net/demo/assets/img/avatar5.png" class="img-circle" width="60px">' +
+                    '</div>' +
+                    '<div class="col-sm-8">' +
+                        '<h4><a href="#">' + person.username + '</a></h4>' +
+                        '<p>'+ person.getStatus() +'</p>' +
+                    '</div>' +
+                    '<div class="col-sm-2">' +
+                        '<p>' + person.getDistance() +'</p>'
+                    + '</div>' +
+                    '</div>' +
+                    '<div class="clearfix"></div>' +
+                    '<hr />'
+        return toReturn;
+    }
+}
 
 var rad = function(x) {
     return x * Math.PI / 180;

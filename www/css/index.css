@@ -40,12 +40,35 @@
                                       /*!* offset horizontal: half of image width and text area width *!*/
     /*}*/
 /*}*/
+* {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
+    -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important;
+    outline: none !important;
+}
+
 
 body {
 -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
 -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
 -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
 background-color: #E4E4E4;
+}
+
+body {
+    margin-top: 30px;
+}
+
+.top {
+    text-align: center;
+}
+
+.shadow {
+    box-shadow: 0px 0px 5px 0px;
+    padding-top: 10px;
+}
+
+h2, a{
+    color: #fff;
 }
 
 
@@ -186,7 +209,7 @@ button:hover, a:hover {
 
 #friend_list {
     height: 90vh;
-    overflow: auto;
+    overflow-y: scroll;
     margin-top: 30px;
 }
 
@@ -209,7 +232,7 @@ button#refresh_button {
 
 
 @media screen and (min-width: 768px) {
-    .row {
+    .row_profile {
         padding-top: 100px;
     }
 }
@@ -229,4 +252,34 @@ p {
     position: absolute;
     top: 10px;
     right:16px;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #ce1616;
+    border-color: #ce1616;
+}
+
+hr {
+    border-top: 1px solid #ce1616;
+}
+
+h2, a {
+    color: #337ab7;
+}
+
+.btn-success.active.focus, .btn-success.active:focus,
+.btn-success.active:hover, .btn-success:active.focus,
+.btn-success:active:focus, .btn-success:active:hover,
+.open>.dropdown-toggle.btn-success.focus, .open>.dropdown-toggle.btn-success:focus,
+.open>.dropdown-toggle.btn-success:hover {
+    color: #fff;
+    background-color: #ce1616;
+    border-color: #ce1616;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #ce1616;
+    border-color: #ce1616;
 }

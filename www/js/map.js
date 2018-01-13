@@ -77,7 +77,8 @@ function initMap(personList, map_id) {
     });
 
     for(var i=0; i < personList.length; i++)
-        placeMarker(personList[i])
+        if (personList[i].position != null)
+            placeMarker(personList[i]);
 }
 
 function watchMapPosition() {
