@@ -17,10 +17,9 @@
 * under the License.
 */
 
-// TODO Handling Error
+// TODO Migliorare Ricerca utente
 // TODO - Simulatore non mostra i marker con emulazione grafica via software -
 // TODO - Come gestire mancata rilevazione della posizione? Obbligare l'utente ad attivarla?
-// TODO La mappa in profilo va sistemata
 // Migliorare la user experience
 
 function onLoad() {
@@ -42,7 +41,25 @@ function onPause () {
 // Update DOM on a Received Event
 function receivedEvent(id) {
     getLocation();
-    console.log(id);
+    console.log(id);var storage = window.localStorage;
+    var session_id = storage.getItem("session_id");
+    if(session_id != null){
+        SingletonUser.getInstance().session_id = session_id;
+        loadModelFriends();
+        // storage.removeItem("session_id");
+        // var value = storage.getItem("session_id");
+        console.log("value=", session_id);
+    }
+    else {
+        $("#form-login").show();
+    }
+
+    $("#loading").hide();
+    $("#sub").click(function () {
+        $("#loading").show();
+        login();
+    })
+
 
 }
 
@@ -154,7 +171,6 @@ function showUpdateStatusPage() {
         $("#dynamicBody").show();
         $("#submitPost").click(function () {
             $("#loading").show();
-            $("#dynamicBody").hide();
             var status = $("#post").val();
             if (SingletonUser.getInstance().position != null) {
                 $.ajax({
@@ -173,7 +189,9 @@ function showUpdateStatusPage() {
                 })
             }
             else {
-                alert("I can't update you status! I don't know where you are! ")
+                alert("I can't update you status! I don't know where you are! ");
+                $("#loading").hide();
+                $("#dynamicBody").show();
             }
         })
     })
@@ -189,6 +207,7 @@ function showAddFriendPage() {
             $("#dynamicBody").show();
             $("#inputFriend").keyup(
                 function () {
+                    $("#loading").hide();
                     var name = $("#inputFriend").val();
                     console.log(name);
                     $.ajax({
@@ -207,22 +226,27 @@ function showAddFriendPage() {
                             })
                         },
                         error: function(xhr, status, error) {
+                            $("#loading").hide();
                             alert(xhr.responseText);
+
                         }
                     })
                 }
             )
             $("#followFriend").click(function () {
                 var name = $("#inputFriend").val();
+                $("#loading").show();
                 $.ajax({
                     url: 'https://ewserver.di.unimi.it/mobicomp/geopost/follow?session_id=' +
                     SingletonUser.getInstance().session_id + '&username=' + name,
                     success: function (result) {
+                        $("#loading").hide();
                         alert(result);
                         loadModelFriends();
                     },
                     error: function(xhr, status, error) {
                         alert(xhr.responseText);
+                        $("#loading").hide();
                     }
                 })
             })

@@ -2,7 +2,7 @@ var map;
 var infowindow;
 
 function getLocation() {
-    var gpsOptions = {maximumAge: 0, timeout: 5000, enableHighAccuracy: true};
+    var gpsOptions = {maximumAge: 0, timeout: 10000, enableHighAccuracy: true};
     navigator.geolocation.getCurrentPosition
     (gpsSuccess, gpsError, gpsOptions);
 }
@@ -26,24 +26,6 @@ function gpsSuccess(position) {
     SingletonUser.getInstance().position = {'lat' : position.coords.latitude, 'lon' : position.coords.longitude};
     // SingletonFriendsList.getInstance().sort({'lat' : position.coords.latitude, 'lon' : position.coords.longitude})
     console.log(SingletonUser.getInstance().position);
-    var storage = window.localStorage;
-    var session_id = storage.getItem("session_id");
-    if(session_id != null){
-        SingletonUser.getInstance().session_id = session_id;
-        loadModelFriends();
-        // storage.removeItem("session_id");
-        // var value = storage.getItem("session_id");
-        console.log("value=", session_id);
-    }
-    else {
-        $("#form-login").show();
-    }
-
-    $("#loading").hide();
-    $("#sub").click(function () {
-        $("#loading").show();
-        login();
-    })
 }
 
 function placeMarker(person) {

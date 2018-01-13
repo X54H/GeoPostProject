@@ -77,6 +77,15 @@ FriendsList.prototype.sort = function (position) {
         console.log(friend.distance)
     })
     return this.friends.sort(function (friend1, friend2) {
+        if(friend1.distance === null){
+            return 1;
+        }
+        else if(friend2.distance === null){
+            return -1;
+        }
+        else if(friend1.distance === friend2.distance){
+            return 0;
+        }
         return friend1.distance - friend2.distance
     })
 }
