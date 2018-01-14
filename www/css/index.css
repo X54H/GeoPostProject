@@ -48,14 +48,12 @@
 
 
 body {
--webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
--webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
--webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-background-color: #E4E4E4;
-}
-
-body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    backgroundund-color: rgba(186, 207, 208, 0.58);
     margin-top: 30px;
+
 }
 
 .top {
@@ -109,16 +107,12 @@ h2, a{
 
 
 #form-login {
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 181px;
-    height: 300px;
-    /* top: 50%; */
-    /* left: 50%; */
-    /* margin-top: -150px; */
-    /* margin-left: -130px; */
+    top: 0; left: 0; bottom: 0; right: 0;
 }
 
 .btn-select {
@@ -179,7 +173,7 @@ h2, a{
 }
 
 #map_profile{
-    height: 300px;
+    height: 230px;
     width: 100%;
 }
 
@@ -198,6 +192,9 @@ h2, a{
     .sidenav a {font-size: 18px;}
 }
 
+p#distance{
+    font-weight: bold;
+}
 
 
 button:hover, a:hover {
@@ -207,6 +204,10 @@ button:hover, a:hover {
 #dynamicBody{
     margin-top: 35px;
 
+}
+
+.form-group{
+    margin-top: 30px;
 }
 
 #friend_list {
@@ -225,13 +226,24 @@ button#refresh_button {
 #switch-list {
     position: absolute;
     top: 10px;
+    margin-left: 5p
     /* top: 50%; */
     /* left: 0; */
     /* margin-left: auto; */
     /* margin-right: auto; */
 }
 
+.row_profile {
+    padding-top: 25px;
+    /* position: absolute; */
+    /* right: 6px; */
+}
 
+.h4, h4 {
+    font-size: 18px;
+    color: #f10000;
+    /* text-align: center; */
+}
 
 @media screen and (min-width: 768px) {
     .row_profile {
@@ -240,9 +252,11 @@ button#refresh_button {
 }
 
 @media screen and (max-width: 480px) {
-    p {
-        max-height: 54px;
-        overflow:scroll
+    p#status{
+        font-family: verdana;
+        font-size: 14px;
+        overflow-y: scroll;
+        max-height: 74px;
     }
 }
 
@@ -267,7 +281,7 @@ hr {
 }
 
 h2, a {
-    color: #337ab7;
+    color: red;
 }
 
 .btn-success.active.focus, .btn-success.active:focus,
@@ -284,4 +298,9 @@ h2, a {
     color: #fff;
     background-color: #ce1616;
     border-color: #ce1616;
+}
+
+.row {
+    margin-right: 0px;
+    margin-left: -15px;
 }

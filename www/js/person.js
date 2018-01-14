@@ -19,10 +19,12 @@ Person.prototype.getStatus = function () {
 Person.prototype.getDistance = function () {
     if (this.position != null) {
         var distance = parseInt(this.distance);
+        console.log(distance);
+        if (isNaN(distance)) return "Position is not available, refresh to update!";
         if (distance < 1000) {
-            return distance + " mt";
+            return distance + " m";
         }
-        else return distance/1000 + " km";
+        else return precisionRound(distance/1000, 1) + " km";
     }
     else return "Position is not available"
 }
@@ -156,14 +158,15 @@ function FriendsListAdapterV2(div, friendsList) {
                         '<img src="https://www.infrascan.net/demo/assets/img/avatar5.png" class="img-circle" width="60px">' +
                     '</div>' +
                     '<div class="col-sm-8">' +
-                        '<h4><a href="#">' + person.username + '</a></h4>' +
-                        '<p>'+ person.getStatus() +'</p>' +
+                        '<h4 id="username"><a href="#">' + person.username + '</a></h4>' +
+                        '<p id="status">'+ person.getStatus() +'</p>' +
                     '</div>' +
                     '<div class="col-sm-2">' +
-                        '<p>' + person.getDistance() +'</p>'
+                        '<p id="distance">' + person.getDistance() +'</p>'
                     + '</div>' +
                     '</div>' +
-                    '<hr />'
+                    '<div class="clearfix"></div>' +
+                    '<hr />';
         return toReturn;
     }
 }
