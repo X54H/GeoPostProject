@@ -16,6 +16,7 @@ Person.prototype.getStatus = function () {
     else return this.status;
 }
 
+
 Person.prototype.getDistance = function () {
     if (this.position != null) {
         var distance = parseInt(this.distance);
@@ -29,9 +30,13 @@ Person.prototype.getDistance = function () {
     else return "Position is not available"
 }
 
+
+
 Person.prototype.toString = function () {
     return self.username
 }
+
+
 
 function User(username, status, lat, lon, session_id) {
     Person.call(this, username, status, lat, lon)
@@ -47,6 +52,8 @@ FriendsList.prototype.getFriendsList = function () {
     return this.friends;
 }
 
+
+
 FriendsList.prototype.friendExists = function (username) {
     for (var i = 0; i < this.friends.length; i++){
         if (this.friends[i].username === username)
@@ -55,16 +62,22 @@ FriendsList.prototype.friendExists = function (username) {
     return -1
 }
 
+
+
 FriendsList.prototype.addFriend = function (person) {
     var f = new Person(person.username, person.msg, person.lat, person.lon);
     if (this.friendExists(person.username) == -1)
         this.friends.push(f)
 }
 
+
+
 FriendsList.prototype.reset = function () {
     this.friends = []
 
 }
+
+
 
 FriendsList.prototype.getFriendByUsername = function (username) {
     var index = this.friendExists(username);
@@ -73,11 +86,14 @@ FriendsList.prototype.getFriendByUsername = function (username) {
     return -1
 }
 
+
+
 FriendsList.prototype.sort = function (position) {
     this.friends.forEach(function (friend) {
         friend.distance = getDistance(friend.position, position)
         console.log(friend.distance)
     })
+
     return this.friends.sort(function (friend1, friend2) {
         if(friend1.distance === null){
             return 1;
@@ -93,14 +109,17 @@ FriendsList.prototype.sort = function (position) {
 }
 
 
+
+
 function ListAdapter(div, list) {
-    this.div = div
+    this.div = div;
     this.list = list
 }
 
 ListAdapter.prototype.generateListElement = function (element) {
     return('<li>' + element + '</li>');
 }
+
 
 ListAdapter.prototype.refresh = function () {
     var toReturn = '<ul>';
@@ -113,6 +132,8 @@ ListAdapter.prototype.refresh = function () {
     this.div.innerHTML = toReturn;
 }
 
+
+
 function FriendsListAdapter(div, friendsList) {
     ListAdapter.call(this, div, friendsList);
     FriendsList.prototype = Object.create(FriendsListAdapter.prototype)
@@ -124,6 +145,8 @@ function FriendsListAdapter(div, friendsList) {
         toReturn += '</div>';
         this.div.innerHTML = toReturn;
     }
+
+
     FriendsListAdapter.prototype.generateListElement = function (person) {
         var toReturn = '<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">';
         toReturn += '<div class="d-flex w-100 justify-content-between">';
@@ -150,6 +173,7 @@ function FriendsListAdapterV2(div, friendsList) {
         toReturn += '</div></div>';
         this.div.innerHTML = toReturn;
     }
+
 
     FriendsListAdapterV2.prototype.generateListElement = function (person) {
         var toReturn =
