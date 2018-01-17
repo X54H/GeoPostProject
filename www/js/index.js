@@ -40,8 +40,10 @@ function onPause () {
 
 // Update DOM on a Received Event
 function receivedEvent(id) {
+    //TODO MEMORIZZARE LISTA CONTATTI
     getLocation();
-    console.log(id);var storage = window.localStorage;
+    console.log(id);
+    var storage = window.localStorage;
     var session_id = storage.getItem("session_id");
     if(session_id != null){
         SingletonUser.getInstance().session_id = session_id;

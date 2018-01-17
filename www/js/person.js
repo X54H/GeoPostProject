@@ -108,9 +108,6 @@ FriendsList.prototype.sort = function (position) {
     })
 }
 
-
-
-
 function ListAdapter(div, list) {
     this.div = div;
     this.list = list
@@ -119,7 +116,6 @@ function ListAdapter(div, list) {
 ListAdapter.prototype.generateListElement = function (element) {
     return('<li>' + element + '</li>');
 }
-
 
 ListAdapter.prototype.refresh = function () {
     var toReturn = '<ul>';
@@ -131,8 +127,6 @@ ListAdapter.prototype.refresh = function () {
     console.log(toReturn);
     this.div.innerHTML = toReturn;
 }
-
-
 
 function FriendsListAdapter(div, friendsList) {
     ListAdapter.call(this, div, friendsList);

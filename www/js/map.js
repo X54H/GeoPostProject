@@ -12,12 +12,11 @@ function gpsRetry(gpsOptions) {
 }
 
 // onError Callback receives a PositionError object
-//
 function gpsError(error, gpsOptions) {
     alert('code: '    + error.code    + "\n" +
         'message: ' + error.message + "\n" +
         "You can't use GeoPost without geolocation!");
-    console.log("gps fail!!")
+    console.log("gps fail!!");
     gpsRetry(gpsOptions);
 }
 
@@ -29,17 +28,16 @@ function gpsSuccess(position) {
 }
 
 function placeMarker(person) {
-    //TODO Inserire la propria posizione. Verificare che la posizione non sia NUL.
-    //TODO Aggiornare i valori degli amici
     var latLng = new google.maps.LatLng(person.position.lat, person.position.lon);
     var mark = {
         position: latLng,
         map: map,
         animation: google.maps.Animation.DROP
-    }
+    };
+
     // mark.icon = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
 
-    var marker = new google.maps.Marker(mark)
+    var marker = new google.maps.Marker(mark);
     google.maps.event.addListener(marker, 'click', function(){
         infowindow.close(); // Close previously opened infowindow
         infowindow.setContent(
@@ -53,7 +51,6 @@ function initMap(personList, map_id) {
     infowindow = new google.maps.InfoWindow();
     map = new google.maps.Map(document.getElementById(map_id), {
         zoom: 4,
-        //TODO Capire dove centrare la mappa
         center: {lat: personList[0].position.lat, lng: personList[0].position.lon}
             // {lat: 45.506488, lng:  9.185794}
     });
