@@ -61,11 +61,6 @@ function receivedEvent(id) {
 }
 
 
-function clickAction(action) {
-    closeNav();
-    action();
-}
-
 function loginViewController () {
     username = $("#inputUsername").val();
     password = $("#inputPassword").val();
@@ -101,6 +96,32 @@ function loginViewController () {
 }
 
 
+function loadModelFriends() {
+    getLocation();
+    $("#loading").show();
+    $.ajax({
+        url: "https://ewserver.di.unimi.it/mobicomp/geopost/followed?session_id=" + SingletonUser.getInstance()
+            .session_id,
+        success: function (result) {
+            $("#loading").hide();
+            var people = result.followed;
+            SingletonFriendsList.getInstance().reset();
+            people.forEach(function (person) {
+                console.log(person);
+                SingletonFriendsList.getInstance().addFriend(person);
+
+            })
+            console.log(SingletonUser.getInstance().position);
+            // var people = SingletonFriendsList.getInstance().sort(SingletonUser.getInstance.position);
+            SingletonFriendsList.getInstance().sort(SingletonUser.getInstance().current_position)
+
+            updateViewFriends();
+            $("nav").show();
+        }
+    })
+}
+
+
 function updateViewFriends() {
     showSettingHideback();
     $("#loading").hide();
@@ -133,24 +154,7 @@ function updateViewFriends() {
 
 }
 
-
-
-function logout() {
-    $("#loading").show();
-    $("#dynamicBody").hide();
-    $.ajax({
-        url: "https://ewserver.di.unimi.it/mobicomp/geopost/logout?session_id=" + SingletonUser.getInstance().session_id,
-        success: function (result) {
-            console.log("logout eseguito!");
-            var storage = window.localStorage;
-            storage.removeItem("session_id");
-            window.location.href = "../index.html"
-        }
-    })
-}
-
-
-function showUpdateStatusPage() {
+function updateStatusPageViewController() {
     showBackHidesetting();
     $("#loading").show();
     $("#dynamicBody").hide();
@@ -189,7 +193,7 @@ function showUpdateStatusPage() {
     })
 }
 
-function showAddFriendPage() {
+function addFriendViewController() {
     showBackHidesetting();
     $("#loading").show();
     $("#dynamicBody").hide();
@@ -274,7 +278,7 @@ function loadProfileModel() {
     })
 }
 
-function showProfilePage() {
+function profileViewController() {
     $("#loading").show();
     showBackHidesetting()
     $("#logout-button").show();
@@ -286,31 +290,5 @@ function showProfilePage() {
         google.maps.event.trigger(map, 'resize');
 
 
-    })
-}
-
-
-function loadModelFriends() {
-    getLocation();
-    $("#loading").show();
-    $.ajax({
-        url: "https://ewserver.di.unimi.it/mobicomp/geopost/followed?session_id=" + SingletonUser.getInstance()
-            .session_id,
-        success: function (result) {
-            $("#loading").hide();
-            var people = result.followed;
-            SingletonFriendsList.getInstance().reset();
-            people.forEach(function (person) {
-                console.log(person);
-                SingletonFriendsList.getInstance().addFriend(person);
-
-            })
-            console.log(SingletonUser.getInstance().position);
-            // var people = SingletonFriendsList.getInstance().sort(SingletonUser.getInstance.position);
-            SingletonFriendsList.getInstance().sort(SingletonUser.getInstance().current_position)
-
-            updateViewFriends();
-            $("nav").show();
-        }
     })
 }

@@ -1,5 +1,3 @@
-
-// TODO create adapter pattern
 // test macchina
 
 
