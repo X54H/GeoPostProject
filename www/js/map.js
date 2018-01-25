@@ -22,9 +22,9 @@ function gpsError(error, gpsOptions) {
 
 function gpsSuccess(position) {
     // Updating Model
-    SingletonUser.getInstance().position = {'lat' : position.coords.latitude, 'lon' : position.coords.longitude};
+    SingletonUser.getInstance().current_position = {'lat' : position.coords.latitude, 'lon' : position.coords.longitude};
     // SingletonFriendsList.getInstance().sort({'lat' : position.coords.latitude, 'lon' : position.coords.longitude})
-    console.log(SingletonUser.getInstance().position);
+    console.log(SingletonUser.getInstance().current_position);
 }
 
 function placeMarker(person) {

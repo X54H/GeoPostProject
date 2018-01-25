@@ -19,7 +19,10 @@
 
 // TODO Migliorare Ricerca utente
 // Migliorare la user experience
-
+//aggiungere bootstrap codice
+//Gestire meglio errori Login
+//Gestire meglio errori in generale
+//cambiare bottone cerca
 function onLoad() {
     document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
 }
@@ -45,6 +48,7 @@ function receivedEvent(id) {
     if(session_id != null){
         SingletonUser.getInstance().session_id = session_id;
         loadModelFriends();
+        loadProfileModel();
         console.log("value=", session_id);
     }
     else {
@@ -92,8 +96,8 @@ function login () {
             SingletonUser.getInstance().session_id = session_id;
             var storage = window.localStorage;
             storage.setItem("session_id", session_id);
-            // loadProfile();
             loadModelFriends();
+            loadProfileModel();
         }
     });
 }
@@ -126,7 +130,6 @@ function updateViewFriends() {
             $("#button_friend_list").removeClass("btn-success").addClass("btn-primary");;
             $("#map").show();
             initMap(SingletonFriendsList.getInstance().getFriendsList(), 'map');
-            // google.maps.event.trigger(map, 'resize');
         });
     })
 
@@ -155,21 +158,18 @@ function showUpdateStatusPage() {
     $("#dynamicBody").hide();
 
     $("#dynamicBody").load("html/showUpdateStatusPage.html", function () {
-        // if (confirm('Areyou sure you want to save this thing into the database?')) {
-        //     // Save it!
-        // } else {
-        //     // Do nothing!
-        // }
         $("#loading").hide();
         $("#dynamicBody").show();
         $("#submitPost").click(function () {
             $("#loading").show();
             var status = $("#post").val();
-            if (SingletonUser.getInstance().position != null) {
+            if (SingletonUser.getInstance().current_position != null) {
                 $.ajax({
                     url: "https://ewserver.di.unimi.it/mobicomp/geopost/status_update?session_id="
-                    + SingletonUser.getInstance().session_id + "&message=" + status + "&lat=" + SingletonUser.getInstance().position.lat
-                    + "&lon=" + SingletonUser.getInstance().position.lon,
+                    +
+                    SingletonUser.getInstance().session_id + "&message=" + status + "&lat=" +
+                    SingletonUser.getInstance().current_position.lat
+                    + "&lon=" + SingletonUser.getInstance().current_position.lon,
 
                     success: function (result) {
                         $("#loading").hide();
@@ -177,6 +177,7 @@ function showUpdateStatusPage() {
                         console.log("Messaggio postato! with result=" + result);
                         console.log(" " + status)
                         SingletonUser.getInstance().status = status;
+                        SingletonUser.getInstance().position = SingletonUser.getInstance().current_position;
                         alert("Your state is updated! Thank you!")
                     }
                 })
@@ -212,9 +213,8 @@ function showAddFriendPage() {
                             $("#dynamicBody").show();
                             $(function () {
                                 console.log(SingletonUser.getInstance().username);
-
                                 var availableTags = result.usernames.filter(function (username) {
-                                    return username != "Giuse";
+                                    return username != SingletonUser.getInstance().username;
                                 })
                                 console.log(availableTags);
                                 $("#inputFriend" ).autocomplete({
@@ -232,41 +232,43 @@ function showAddFriendPage() {
             )
             $("#followFriend").click(function () {
                 var name = $("#inputFriend").val();
-                $("#loading").show();
-                $.ajax({
-                    url: 'https://ewserver.di.unimi.it/mobicomp/geopost/follow?session_id=' +
-                    SingletonUser.getInstance().session_id + '&username=' + name,
-                    success: function (result) {
-                        $("#loading").hide();
-                        alert(result);
-                        loadModelFriends();
-                    },
-                    error: function(xhr, status, error) {
-                        alert(xhr.responseText);
-                        $("#loading").hide();
-                    }
-                })
+                if (name != SingletonUser.getInstance().username) {
+                    $("#loading").show();
+                    $.ajax({
+                        url: 'https://ewserver.di.unimi.it/mobicomp/geopost/follow?session_id=' +
+                        SingletonUser.getInstance().session_id + '&username=' + name,
+                        success: function (result) {
+                            $("#loading").hide();
+                            alert(result);
+                            loadModelFriends();
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                            $("#loading").hide();
+                        }
+                    })
+                }
             })
         }
     );
 }
 
-
 function loadProfile() {
-    $("#loading").show();
-    $("#dynamicBody").hide();
+    console.log(SingletonUser.getInstance().username);
+    initMap([SingletonUser.getInstance()], 'map_profile');
+    $("#username").html(SingletonUser.getInstance().username);
+    $("#status").html(SingletonUser.getInstance().status);
+}
+
+function loadProfileModel() {
     $.ajax({
         url: 'https://ewserver.di.unimi.it/mobicomp/geopost/profile?session_id=' + SingletonUser.getInstance().session_id,
         success: function (user) {
-            $("#loading").hide();
-            $("#dynamicBody").show();
             console.log(user);
-            var u = new Person(user.username, user.msg, user.lat, user.lon);
-            initMap([u], 'map_profile');
-            $("#username").html(user.username);
-            $("#status").html(user.msg);
+            SingletonUser.getInstance().username = user.username;
+            SingletonUser.getInstance().status = user.msg;
+            SingletonUser.getInstance().position = {'lat' : user.lat, 'lon' : user.lon}
         },
-
         error: function(xhr, status, error) {
             alert(xhr.responseText);
         }
@@ -275,19 +277,22 @@ function loadProfile() {
 
 function showProfilePage() {
     $("#loading").show();
-    $("#dynamicBody").hide();
     showBackHidesetting()
     $("#logout-button").show();
     console.log(SingletonUser.getInstance());
     $("#dynamicBody").load("html/profile.html", function () {
         loadProfile();
         $("#dynamicBody").show();
+        $("#loading").hide();
+        google.maps.event.trigger(map, 'resize');
+
 
     })
 }
 
 
 function loadModelFriends() {
+    getLocation();
     $("#loading").show();
     $.ajax({
         url: "https://ewserver.di.unimi.it/mobicomp/geopost/followed?session_id=" + SingletonUser.getInstance()
@@ -303,7 +308,7 @@ function loadModelFriends() {
             })
             console.log(SingletonUser.getInstance().position);
             // var people = SingletonFriendsList.getInstance().sort(SingletonUser.getInstance.position);
-            SingletonFriendsList.getInstance().sort(SingletonUser.getInstance().position)
+            SingletonFriendsList.getInstance().sort(SingletonUser.getInstance().current_position)
 
             updateViewFriends();
             $("nav").show();
