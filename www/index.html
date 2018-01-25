@@ -30,21 +30,21 @@
 
             <div class="navbar-header">
                 <a id="setting" class="navbar-brand" href="#">
-                    <span  class="glyphicon glyphicon-option-horizontal" onclick="openNav();"></span>
+                    <span  class="glyphicon glyphicon-menu-hamburger" onclick="openNav();"></span>
                 </a>
                 <a id="back" onclick="updateViewFriends();" class="navbar-brand" href="#" style="display: none;">
                     <span class="glyphicon glyphicon-menu-left"></span>
                 </a>
                 <div id="switch-list" class="btn-group">
-                    <button id="button_friend_list" class="btn btn-primary btn-sm" onclick="this.blur();">
-                        <span class="glyphicon glyphicon-list"></span>
+                    <button id="button_friend_list" class="btn btn-primary" onclick="this.blur();">
+                        <span class="glyphicon glyphicon-list"> List</span>
                     </button>
-                    <button id="button_map" class="btn btn-primary btn-sm" onclick="this.blur();">
-                        <span class="glyphicon glyphicon-map-marker"></span>
+                    <button id="button_map" class="btn btn-primary" onclick="this.blur();">
+                        <span class="glyphicon glyphicon-map-marker"> Map</span>
                     </button>
                 </div>
-                <button onclick="loadModelFriends()" id="refresh_button" class="btn btn-primary btn-sm">
-                    <span class="glyphicon glyphicon-refresh"></span>
+                <button onclick="loadModelFriends()" id="refresh_button" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-refresh">Refresh</span>
                 </button>
                 <button id="logout-button" class="btn btn-primary" onclick="logout()">Logout</button>
 
