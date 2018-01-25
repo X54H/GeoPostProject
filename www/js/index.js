@@ -17,13 +17,10 @@
 * under the License.
 */
 
-// TODO Migliorare Ricerca utente
-// Migliorare la user experience
-//aggiungere bootstrap codice
 //Gestire meglio errori Login
 //Gestire meglio errori in generale
-//cambiare bottone cerca
 //mettere massimo caratteri 25
+//migliorare ricerca utente togliere utenti già aggiunti
 function onLoad() {
     document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
 }
