@@ -23,6 +23,7 @@
 //Gestire meglio errori Login
 //Gestire meglio errori in generale
 //cambiare bottone cerca
+//mettere massimo caratteri 25
 function onLoad() {
     document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
 }
