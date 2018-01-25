@@ -37,16 +37,3 @@ function clickAction(action) {
 }
 
 
-function logout() {
-    $("#loading").show();
-    $("#dynamicBody").hide();
-    $.ajax({
-        url: "https://ewserver.di.unimi.it/mobicomp/geopost/logout?session_id=" + SingletonUser.getInstance().session_id,
-        success: function (result) {
-            console.log("logout eseguito!");
-            var storage = window.localStorage;
-            storage.removeItem("session_id");
-            window.location.href = "../index.html"
-        }
-    })
-}
