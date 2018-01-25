@@ -32,7 +32,7 @@ function modal (message, callback, title, buttonLabels, domObjects) {
 
     modalDocument.write(
         '<html><head>' +
-        '<link rel="stylesheet" type="text/css" href="/css/index.css" />' +
+        '<link rel="stylesheet" type="text/css" href="/css/custom.css" />' +
         '<link rel="stylesheet" type="text/css" href="/css/notification.css" />' +
         '</head><body></body></html>');
 
