@@ -18,8 +18,6 @@
 */
 
 // TODO Migliorare Ricerca utente
-// TODO - Simulatore non mostra i marker con emulazione grafica via software -
-// TODO - Come gestire mancata rilevazione della posizione? Obbligare l'utente ad attivarla?
 // Migliorare la user experience
 
 function onLoad() {
@@ -40,7 +38,6 @@ function onPause () {
 
 // Update DOM on a Received Event
 function receivedEvent(id) {
-    //TODO MEMORIZZARE LISTA CONTATTI
     getLocation();
     console.log(id);
     var storage = window.localStorage;
@@ -48,8 +45,6 @@ function receivedEvent(id) {
     if(session_id != null){
         SingletonUser.getInstance().session_id = session_id;
         loadModelFriends();
-        // storage.removeItem("session_id");
-        // var value = storage.getItem("session_id");
         console.log("value=", session_id);
     }
     else {
@@ -61,8 +56,6 @@ function receivedEvent(id) {
         $("#loading").show();
         login();
     })
-
-
 }
 
 
@@ -91,10 +84,8 @@ function login () {
             console.log(xhr.statusText);
             console.log(textStatus);
             console.log(error);
-            alert(error)
+            alert(error);
             $("#loading").hide();
-
-
         },
         success: function(session_id){
             console.log(session_id);
@@ -164,7 +155,7 @@ function showUpdateStatusPage() {
     $("#dynamicBody").hide();
 
     $("#dynamicBody").load("html/showUpdateStatusPage.html", function () {
-        // if (confirm('Are you sure you want to save this thing into the database?')) {
+        // if (confirm('Areyou sure you want to save this thing into the database?')) {
         //     // Save it!
         // } else {
         //     // Do nothing!
@@ -219,9 +210,13 @@ function showAddFriendPage() {
                         success: function (result) {
                             $("#loading").hide();
                             $("#dynamicBody").show();
-                            console.log(result.usernames);
                             $(function () {
-                                var availableTags = result.usernames;
+                                console.log(SingletonUser.getInstance().username);
+
+                                var availableTags = result.usernames.filter(function (username) {
+                                    return username != "Giuse";
+                                })
+                                console.log(availableTags);
                                 $("#inputFriend" ).autocomplete({
                                     source: availableTags
                                 });
@@ -266,7 +261,7 @@ function loadProfile() {
             $("#loading").hide();
             $("#dynamicBody").show();
             console.log(user);
-            var u = new Person(user.username, user.msg, user.lat, user.lon)
+            var u = new Person(user.username, user.msg, user.lat, user.lon);
             initMap([u], 'map_profile');
             $("#username").html(user.username);
             $("#status").html(user.msg);
