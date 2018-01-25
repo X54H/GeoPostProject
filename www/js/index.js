@@ -106,7 +106,7 @@ function updateViewFriends() {
     $("#loading").hide();
     $("#map").hide();
 
-    $("#dynamicBody").load("html/viewFriends.html", function () {
+    $("#dynamicBody").load("view/viewFriends.html", function () {
         array_adapter = new FriendsListAdapterV2(document.getElementById('friend_list'), SingletonFriendsList
             .getInstance().getFriendsList());
         array_adapter.refresh();
@@ -155,7 +155,7 @@ function showUpdateStatusPage() {
     $("#loading").show();
     $("#dynamicBody").hide();
 
-    $("#dynamicBody").load("html/showUpdateStatusPage.html", function () {
+    $("#dynamicBody").load("view/showUpdateStatusPage.html", function () {
         $("#loading").hide();
         $("#dynamicBody").show();
         $("#submitPost").click(function () {
@@ -193,7 +193,7 @@ function showAddFriendPage() {
     showBackHidesetting();
     $("#loading").show();
     $("#dynamicBody").hide();
-    $("#dynamicBody").load("html/showAddFriendPage.html",
+    $("#dynamicBody").load("view/showAddFriendPage.html",
         function () {
             $("#loading").hide();
             $("#dynamicBody").show();
@@ -279,7 +279,7 @@ function showProfilePage() {
     showBackHidesetting()
     $("#logout-button").show();
     console.log(SingletonUser.getInstance());
-    $("#dynamicBody").load("html/profile.html", function () {
+    $("#dynamicBody").load("view/profile.html", function () {
         loadProfile();
         $("#dynamicBody").show();
         $("#loading").hide();
