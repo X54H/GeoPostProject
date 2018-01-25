@@ -295,3 +295,11 @@ h2, a {
     margin-right: 0px;
     margin-left: -15px;
 }
+
+.fixedHeight {
+    color:red;
+    max-height: 100px;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    overflow-y: auto;
+}

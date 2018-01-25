@@ -221,6 +221,7 @@ function showAddFriendPage() {
                                 $("#inputFriend" ).autocomplete({
                                     source: availableTags
                                 });
+                                $( "#inputFriend" ).autocomplete("widget").addClass("fixedHeight");
                             })
                         },
                         error: function(xhr, status, error) {
