@@ -21,7 +21,7 @@ Person.prototype.getDistance = function () {
     if (this.position != null) {
         var distance = parseInt(this.distance);
         console.log(distance);
-        if (isNaN(distance)) return "Position is not available, refresh to update!";
+        if (isNaN(distance)) return "Refresh to update!";
         if (distance < 1000) {
             return distance + " m";
         }

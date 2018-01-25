@@ -56,7 +56,7 @@ function receivedEvent(id) {
     $("#loading").hide();
     $("#sub").click(function () {
         $("#loading").show();
-        login();
+        loginViewController();
     })
 }
 
@@ -66,7 +66,7 @@ function clickAction(action) {
     action();
 }
 
-function login () {
+function loginViewController () {
     username = $("#inputUsername").val();
     password = $("#inputPassword").val();
     // var username = "Giuse";
@@ -144,7 +144,7 @@ function logout() {
             console.log("logout eseguito!");
             var storage = window.localStorage;
             storage.removeItem("session_id");
-            window.location.href = "index.html"
+            window.location.href = "../index.html"
         }
     })
 }
@@ -155,7 +155,7 @@ function showUpdateStatusPage() {
     $("#loading").show();
     $("#dynamicBody").hide();
 
-    $("#dynamicBody").load("view/showUpdateStatusPage.html", function () {
+    $("#dynamicBody").load("view/viewUpdateStatusPage.html", function () {
         $("#loading").hide();
         $("#dynamicBody").show();
         $("#submitPost").click(function () {
@@ -193,7 +193,7 @@ function showAddFriendPage() {
     showBackHidesetting();
     $("#loading").show();
     $("#dynamicBody").hide();
-    $("#dynamicBody").load("view/showAddFriendPage.html",
+    $("#dynamicBody").load("view/viewAddFriendPage.html",
         function () {
             $("#loading").hide();
             $("#dynamicBody").show();
@@ -279,7 +279,7 @@ function showProfilePage() {
     showBackHidesetting()
     $("#logout-button").show();
     console.log(SingletonUser.getInstance());
-    $("#dynamicBody").load("view/profile.html", function () {
+    $("#dynamicBody").load("view/viewProfile.html", function () {
         loadProfile();
         $("#dynamicBody").show();
         $("#loading").hide();
