@@ -1,32 +1,6 @@
 var map;
 var infowindow;
 
-function getLocation() {
-    var gpsOptions = {maximumAge: 0, timeout: 10000, enableHighAccuracy: true};
-    navigator.geolocation.getCurrentPosition
-    (gpsSuccess, gpsError, gpsOptions);
-}
-
-function gpsRetry(gpsOptions) {
-    navigator.geolocation.getCurrentPosition(gpsSuccess, gpsError, gpsOptions);
-}
-
-// onError Callback receives a PositionError object
-function gpsError(error, gpsOptions) {
-    alert('code: '    + error.code    + "\n" +
-        'message: ' + error.message + "\n" +
-        "You can't use GeoPost without geolocation!");
-    console.log("gps fail!!");
-    gpsRetry(gpsOptions);
-}
-
-function gpsSuccess(position) {
-    // Updating Model
-    SingletonUser.getInstance().current_position = {'lat' : position.coords.latitude, 'lon' : position.coords.longitude};
-    // SingletonFriendsList.getInstance().sort({'lat' : position.coords.latitude, 'lon' : position.coords.longitude})
-    console.log(SingletonUser.getInstance().current_position);
-}
-
 function placeMarker(person) {
     var latLng = new google.maps.LatLng(person.position.lat, person.position.lon);
     var mark = {

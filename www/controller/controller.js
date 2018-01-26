@@ -39,7 +39,7 @@ function onPause () {
 
 // Update DOM on a Received Event
 function receivedEvent(id) {
-    getLocation();
+    // getLocation();
     console.log(id);
     var storage = window.localStorage;
     var session_id = storage.getItem("session_id");
@@ -62,8 +62,8 @@ function receivedEvent(id) {
 
 
 function loginViewController () {
-    username = $("#inputUsername").val();
-    password = $("#inputPassword").val();
+    var username = $("#inputUsername").val();
+    var password = $("#inputPassword").val();
     // var username = "Giuse";
     // var password = "123";
     console.log(username);
@@ -81,8 +81,16 @@ function loginViewController () {
             console.log(xhr.statusText);
             console.log(textStatus);
             console.log(error);
-            alert(error);
             $("#loading").hide();
+            function alertDismissed() {
+                // do something
+            }
+            navigator.notification.alert(
+                'Wrong username or/and password',  // message
+                alertDismissed(),         // callback
+                'Login Error',            // title
+                'Retry'                  // buttonName
+            );
         },
         success: function(session_id){
             console.log(session_id);
@@ -158,10 +166,10 @@ function updateStatusPageViewController() {
     showBackHidesetting();
     $("#loading").show();
     $("#dynamicBody").hide();
-
     $("#dynamicBody").load("view/viewUpdateStatusPage.html", function () {
         $("#loading").hide();
         $("#dynamicBody").show();
+        getLocation();
         $("#submitPost").click(function () {
             $("#loading").show();
             var status = $("#post").val();
@@ -180,12 +188,33 @@ function updateStatusPageViewController() {
                         console.log(" " + status)
                         SingletonUser.getInstance().status = status;
                         SingletonUser.getInstance().position = SingletonUser.getInstance().current_position;
-                        alert("Your state is updated! Thank you!")
+                        SingletonUser.getInstance().current_position = null;
+                        updateViewFriends();
+                        navigator.notification.alert(
+                            'Status Updated',  // message
+                            updateViewFriends(),         // callback
+                            'Thank you!',            // title
+                            'Done'                  // buttonName
+                        );
                     }
                 })
             }
             else {
-                alert("I can't update you status! I don't know where you are! ");
+                function onConfirm(buttonIndex) {
+                    // alert('You selected button ' + buttonIndex);
+                    if (buttonIndex == 1) getLocation();
+                    else {
+                        SingletonUser.getInstance().current_position = SingletonUser.getInstance().position;
+                    }
+                }
+
+                navigator.notification.confirm(
+                    'Sorry, We cant trace your position, maybe gps is disable.', // message
+                    onConfirm,            // callback to invoke with index of button pressed
+                    'Position Error',
+                    ['Retry','Use last position']     // buttonLabels
+                );
+
                 $("#loading").hide();
                 $("#dynamicBody").show();
             }
