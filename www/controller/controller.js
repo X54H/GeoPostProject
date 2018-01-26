@@ -17,9 +17,7 @@
 * under the License.
 */
 
-//Gestire meglio errori Login
-//Gestire meglio errori in generale
-//mettere massimo caratteri 25
+//todo creare utenti test
 //migliorare ricerca utente togliere utenti già aggiunti
 function onLoad() {
     document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
@@ -190,12 +188,6 @@ function updateStatusPageViewController() {
                         SingletonUser.getInstance().position = SingletonUser.getInstance().current_position;
                         SingletonUser.getInstance().current_position = null;
                         updateViewFriends();
-                        navigator.notification.alert(
-                            'Status Updated',  // message
-                            updateViewFriends(),         // callback
-                            'Thank you!',            // title
-                            'Done'                  // buttonName
-                        );
                     }
                 })
             }
@@ -256,7 +248,12 @@ function addFriendViewController() {
                         },
                         error: function(xhr, status, error) {
                             $("#loading").hide();
-                            alert(xhr.responseText);
+                            navigator.notification.alert(
+                                'Error',  // message
+                                function () {  },         // callback
+                                xhr.responseText,            // title
+                                'Done'                  // buttonName
+                            );
 
                         }
                     })
@@ -271,11 +268,21 @@ function addFriendViewController() {
                         SingletonUser.getInstance().session_id + '&username=' + name,
                         success: function (result) {
                             $("#loading").hide();
-                            alert(result);
+                            navigator.notification.alert(
+                                'Now you have one more friend',  // message
+                                function () {  },         // callback
+                                'Success',            // title
+                                'Done'                  // buttonName
+                            );
                             loadModelFriends();
                         },
                         error: function (xhr, status, error) {
-                            alert(xhr.responseText);
+                            navigator.notification.alert(
+                                xhr.responseText,  // message
+                                function () {  },         // callback
+                                'Error',            // title
+                                'Done'                  // buttonName
+                            );
                             $("#loading").hide();
                         }
                     })
